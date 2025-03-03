@@ -24,8 +24,9 @@ enum class ScreenMode {
 @Composable
 fun CalculatorApp(navController: NavController) {
     // Estado que guarda el modo actual
-//    var selectedMode by remember { mutableStateOf(ScreenMode.BASIC) }
-    var selectedMode = ScreenMode.BASIC;
+   var selectedMode by remember { mutableStateOf(ScreenMode.BASIC) }
+
+//    var selectedMode = ScreenMode.BASIC;
 
     Scaffold(
         bottomBar = {
