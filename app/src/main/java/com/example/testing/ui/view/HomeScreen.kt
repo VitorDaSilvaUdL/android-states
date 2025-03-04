@@ -1,6 +1,8 @@
 package com.example.testing.ui.view
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Colorize
@@ -10,30 +12,36 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.testing.ui.viewmodel.CounterViewModel
 
 // Enum para representar el modo seleccionado
 enum class ScreenMode {
-    BASIC, COUNTER, COLOR
+    BASIC, COUNTER, COUNTER_VM
 }
 
 @Composable
 fun CalculatorApp(navController: NavController) {
     // Estado que guarda el modo actual
-   var selectedMode by remember { mutableStateOf(ScreenMode.BASIC) }
+   var selectedMode by remember { mutableStateOf(ScreenMode.COUNTER) }
 
 //    var selectedMode = ScreenMode.BASIC;
 
     Scaffold(
         bottomBar = {
             NavigationBar {
-                NavigationBarItem(
-                    icon = { Icon(Icons.Default.Menu, contentDescription = "Básica") },
-                    selected = selectedMode == ScreenMode.BASIC,
-                    onClick = { selectedMode = ScreenMode.BASIC },
-                    label = { Text("Básica") }
-                )
+//                NavigationBarItem(
+//                    icon = { Icon(Icons.Default.Menu, contentDescription = "Básica") },
+//                    selected = selectedMode == ScreenMode.BASIC,
+//                    onClick = { selectedMode = ScreenMode.BASIC },
+//                    label = { Text("Básica") }
+//                )
+
                 //iconos
                 //https://fonts.google.com/icons
                 //https://developer.android.com/reference/kotlin/androidx/compose/material/icons/package-summary
@@ -45,10 +53,10 @@ fun CalculatorApp(navController: NavController) {
                 )
 
                 NavigationBarItem(
-                    icon = { Icon(Icons.Default.Colorize, contentDescription = "Button") },
-                    selected = selectedMode == ScreenMode.COLOR,
-                    onClick = { selectedMode = ScreenMode.COLOR },
-                    label = { Text("COLOR") }
+                    icon = { Icon(Icons.Default.Computer, contentDescription = "Counter VM") },
+                    selected = selectedMode == ScreenMode.COUNTER_VM,
+                    onClick = { selectedMode = ScreenMode.COUNTER_VM },
+                    label = { Text("COUNTER VM") }
                 )
             }
         }
@@ -61,8 +69,8 @@ fun CalculatorApp(navController: NavController) {
         ) {
             when (selectedMode) {
                 ScreenMode.BASIC -> BasicCalculator()
-                ScreenMode.COUNTER -> IMCCalculator()
-                ScreenMode.COLOR -> IMCCalculator()
+                ScreenMode.COUNTER -> Counter()
+                ScreenMode.COUNTER_VM -> CounterWithViewModel()
             }
         }
     }
@@ -86,7 +94,7 @@ fun BasicCalculator() {
 }
 
 @Composable
-fun IMCCalculator() {
+fun Counter() {
     // Vista placeholder para la calculadora de IMC
     Column(
         modifier = Modifier
@@ -95,9 +103,65 @@ fun IMCCalculator() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Calculadora de IMC", style = MaterialTheme.typography.headlineMedium )
-        // Aquí puedes agregar los componentes y lógica de la calculadora básica
+        Text(text = "Contador", style = MaterialTheme.typography.headlineMedium )
+
+        CounterButton()
+
+    }
+}
 
 
+@Composable
+fun CounterButton() {
+
+//    var count by remember { mutableStateOf(0)}
+    var count = 0
+
+    Button(onClick = {
+        count += 1				 			// count = count + 1
+        Log.d("Counter", "Count: $count")
+    },
+        shape = CircleShape,
+        modifier = Modifier
+            .height(150.dp)
+            .width(150.dp)) {
+        Text(text = "Tap $count", fontSize = 30.sp,
+            fontWeight = FontWeight.Bold)
+    }
+}
+
+
+@Composable
+fun CounterWithViewModel(
+    counterViewModel: CounterViewModel = viewModel()
+) {
+    // Estado actual del contador desde el ViewModel
+    val count = counterViewModel.count
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "Contador (ViewModel)",
+            style = MaterialTheme.typography.headlineMedium
+        )
+
+        Button(
+            onClick = { counterViewModel.increment() },
+            shape = CircleShape,
+            modifier = Modifier
+                .height(150.dp)
+                .width(150.dp)
+        ) {
+            Text(
+                text = "Tap $count",
+                fontSize = 30.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
     }
 }
