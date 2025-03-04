@@ -114,8 +114,13 @@ fun Counter() {
 @Composable
 fun CounterButton() {
 
-//    var count by remember { mutableStateOf(0)}
-    var count = 0
+    //Replace
+    //var count = 0
+
+    //with
+    var count by remember { mutableStateOf(0)}
+
+
 
     Button(onClick = {
         count += 1				 			// count = count + 1
