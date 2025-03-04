@@ -1,4 +1,4 @@
-package com.example.testing.domain
+package com.example.testing.domain.model
 
 class CalculatorEngine {
 

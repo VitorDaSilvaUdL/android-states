@@ -1,14 +1,11 @@
-package com.example.testing.ui.screens
+package com.example.testing.ui.view
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Colorize
 import androidx.compose.material.icons.filled.Computer
-import androidx.compose.material.icons.outlined.Paid
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Scale
-import androidx.compose.material.icons.filled.Science
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
